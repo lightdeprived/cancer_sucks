@@ -10,6 +10,7 @@ import configparser
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+# Read config values from config.ini
 db_host = config['DEFAULT']['host']
 db_port = config['DEFAULT']['port']
 db_name = config['DEFAULT']['db_name']
