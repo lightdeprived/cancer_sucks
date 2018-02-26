@@ -43,7 +43,7 @@ Please enter information below...
         db_connection = sql.connect(host=db_host, database=db_name, user=db_user, password=db_password)
         cursor = db_connection.cursor()
 
-        args = (9, 1, comment, cbc_date, cbc_date, None, None, wbc, hgb, plt, gran, anc, '')
+        args = (9, 1, comment, cbc_date, cbc_date, cbc_time, cbc_time, wbc, hgb, plt, gran, anc, '')
         result = cursor.callproc('sp_add_event_cbc', args)
         print(result)
 
