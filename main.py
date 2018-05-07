@@ -169,154 +169,168 @@ Please enter information below...
         db_connection.close()
 
 
+def show_menu(menu):
+    options = menu.keys()
+
+    for entry in options:
+        print(entry, menu[entry])
+
+
+def menu_selection(menu):
+    selection = input("Please Select: ").upper()
+
+    if selection not in menu:
+        selection = 'E'
+
+    return selection
+
+
 def add_menu():
+    error_text = "Invalid Selection"
 
-    menu = {}
-    menu['1'] = 'Add CBC'
-    menu['2'] = 'Add Medication'
-    menu['3'] = 'Add Vitals'
-    menu['4'] = 'Add Surgery'
-    menu['X'] = 'Return'
+    menu_items_add = {}
+    menu_items_add['1'] = 'Add CBC'
+    menu_items_add['2'] = 'Add Medication'
+    menu_items_add['3'] = 'Add Vitals'
+    menu_items_add['4'] = 'Add Surgery'
+    menu_items_add['X'] = 'Return'
 
-    while True:
-        options = menu.keys()
+    add_menu_choices = {'1': add_cbc_record,
+               '2': add_medication_record,
+               '3': add_vitals_record,
+               '4': add_surgery_record,
+               'E': (lambda: print(error_text))}
 
-        for entry in options:
-            print(entry, menu[entry])
+    show_menu(menu_items_add)
+    selection = menu_selection(menu_items_add)
 
-        selection=input('Please Select: ')
-        if selection == '1':
-            add_cbc_record()
-        elif selection == '2':
-            add_medication_record()
-        elif selection == '3':
-            add_vitals_record()
-        elif selection == '4':
-            add_surgery_record()
-        elif selection.upper() == 'X':
-            print('Returning')
-            break
-        else:
-            print("Unknown Option Selected!")
+    while selection != 'X':
+        add_menu_choices[selection]()
+        show_menu(menu_items_add)
+        selection = menu_selection(menu_items_add)
+
+
+def create_overview_plot():
+    outfile_type = '.png'
+    print('Creating overview plot...')
+
+    create_count_plot.create_plot_sql(['wbc', 'hgb', 'plt', 'gran_percent', 'anc'],
+                                      ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
+                                      False, True, False, 'charts/overview-plot', outfile_type)
+    print('Finished creating overview plot!')
+
+
+def create_wbc_plot():
+    outfile_type = '.png'
+    print('Creating WBC plot...')
+
+    create_count_plot.create_plot_sql(['wbc'],
+                                      ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
+                                      True, False, True, 'charts/wbc-data', outfile_type)
+    print('Finished creating WBC plot!')
+
+
+def create_anc_plot():
+    outfile_type = '.png'
+    print('Creating ANC plot...')
+
+    create_count_plot.create_plot_sql(['anc'],
+                                      ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
+                                      True, False, True, 'charts/agc-data', outfile_type)
+    print('Finished creating overview plot!')
+
+
+def create_gran_plot():
+    outfile_type = '.png'
+    print('Creating GRAN % plot...')
+
+    create_count_plot.create_plot_sql(['gran_percent'],
+                                      ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
+                                      True, False, True, 'charts/gran-data', outfile_type)
+    print('Finished creating GRAN % plot!')
+
+
+def create_hgb_plot():
+    outfile_type = '.png'
+    print('Creating HGB plot...')
+
+    create_count_plot.create_plot_sql(['hgb'],
+                                      ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
+                                      True, False, True, 'charts/hgb-data', outfile_type)
+    print('Finished creating HGB plot!')
+
+
+def create_plt_plot():
+    outfile_type = '.png'
+    print('Creating PLT plot...')
+
+    create_count_plot.create_plot_sql(['plt'],
+                                      ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
+                                      True, False, True, 'charts/plt-data', outfile_type)
+    print('Finished creating PLT plot!')
+
+
+def create_all_plot():
+    print('Creating all plots...')
+
+    create_overview_plot()
+    create_wbc_plot()
+    create_anc_plot()
+    create_gran_plot()
+    create_hgb_plot()
+    create_plt_plot()
+
+    print('Finished creating all plots!')
 
 
 def plot_menu():
+    error_text = "Invalid Selection"
 
-    menu = {}
-    menu['1'] = "Create overview plot."
-    menu['2'] = "Create WBC plot."
-    menu['3'] = "Create AGC plot."
-    menu['4'] = "Create GRAN % plot."
-    menu['5'] = "Create HGB plot."
-    menu['6'] = "Create PLT plot."
-    menu['7'] = "Create all plots."
-    menu['X'] = "Return."
+    menu_items_plot = {}
+    menu_items_plot['1'] = "Create overview plot."
+    menu_items_plot['2'] = "Create WBC plot."
+    menu_items_plot['3'] = "Create AGC plot."
+    menu_items_plot['4'] = "Create GRAN % plot."
+    menu_items_plot['5'] = "Create HGB plot."
+    menu_items_plot['6'] = "Create PLT plot."
+    menu_items_plot['7'] = "Create all plots."
+    menu_items_plot['X'] = "Return."
 
-    outfile_type = '.png'
+    plot_menu_choices = {'1': create_overview_plot,
+               '2': create_wbc_plot,
+               '3': create_anc_plot,
+               '4': create_gran_plot,
+               '5': create_hgb_plot,
+               '6': create_plt_plot,
+               '7': create_all_plot,
+               'E': (lambda: print(error_text))}
 
-    while True:
-        options = menu.keys()
+    show_menu(menu_items_plot)
+    selection = menu_selection(menu_items_plot)
 
-        for entry in options:
-            print(entry, menu[entry])
-
-        selection = input("Please Select: ")
-        if selection == '1':
-            print('Creating overview plot...')
-
-            create_count_plot.create_plot_sql(['wbc', 'hgb', 'plt', 'gran_percent', 'anc'],
-                                              ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                              False, True, False, 'charts/overview-plot', outfile_type)
-            print('Finished creating overview plot!')
-        elif selection == '2':
-            print('Creating WBC plot...')
-
-            create_count_plot.create_plot_sql(['wbc'],
-                                          ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                          True, False, True, 'charts/wbc-data', outfile_type)
-            print('Finished creating WBC plot!')
-        elif selection == '3':
-            print('Creating ANC plot...')
-
-            create_count_plot.create_plot_sql(['anc'],
-                                          ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                          True, False, True, 'charts/agc-data', outfile_type)
-            print('Finished creating overview plot!')
-        elif selection == '4':
-            print('Creating GRAN % plot...')
-
-            create_count_plot.create_plot_sql(['gran_percent'],
-                                          ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                          True, False, True, 'charts/gran-data', outfile_type)
-            print('Finished creating GRAN % plot!')
-        elif selection == '5':
-            print('Creating HGB plot...')
-
-            create_count_plot.create_plot_sql(['hgb'],
-                                          ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                          True, False, True, 'charts/hgb-data', outfile_type)
-            print('Finished creating HGB plot!')
-        elif selection == '6':
-            print('Creating PLT plot...')
-
-            create_count_plot.create_plot_sql(['plt'],
-                                          ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                          True, False, True, 'charts/plt-data', outfile_type)
-            print('Finished creating PLT plot!')
-        elif selection == '7':
-            print('Creating all plots...')
-
-            create_count_plot.create_plot_sql(['wbc', 'hgb', 'plt', 'gran_percent', 'anc'],
-                                          ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                          False, True, False, 'charts/overview-plot', outfile_type)
-
-            create_count_plot.create_plot_sql(['wbc'],
-                                              ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                              True, False, True, 'charts/wbc-data', outfile_type)
-
-            create_count_plot.create_plot_sql(['anc'],
-                                              ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                              True, False, True, 'charts/agc-data', outfile_type)
-
-            create_count_plot.create_plot_sql(['gran_percent'],
-                                              ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                              True, False, True, 'charts/gran-data', outfile_type)
-
-            create_count_plot.create_plot_sql(['hgb'],
-                                              ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                              True, False, True, 'charts/hgb-data', outfile_type)
-
-            create_count_plot.create_plot_sql(['plt'],
-                                              ['Doxorubicin', 'Cisplatin', 'Methotrexate', 'Neulasta'],
-                                              True, False, True, 'charts/plt-data', outfile_type)
-            print('Finished creating all plots!')
-        elif selection.upper() == 'X':
-            break
-        else:
-            print("Unknown Option Selected!")
+    while selection.upper() != 'X':
+        plot_menu_choices[selection]()
+        show_menu(menu_items_plot)
+        selection = menu_selection(menu_items_plot)
 
 
 def main():
-    menu = {}
-    menu['1'] = 'Add Items.'
-    menu['2'] = 'Plot.'
-    menu['X'] = 'Exit.'
+    menu_items_main = {}
+    menu_items_main['1'] = 'Add Items.'
+    menu_items_main['2'] = 'Plot.'
+    menu_items_main['X'] = 'Exit.'
 
-    while True:
-        options = menu.keys()
+    main_menu_choices = {'1': add_menu,
+               '2': plot_menu,
+               'E': (lambda: print("Unknown Option Selected!"))}
 
-        for entry in options:
-            print(entry, menu[entry])
+    show_menu(menu_items_main)
+    selection = menu_selection(menu_items_main)
 
-        selection = input("Please Select: ")
-        if selection == '1':
-            add_menu()
-        elif selection == '2':
-            plot_menu()
-        elif selection.upper() == 'X':
-            break
-        else:
-            print('Unknown Option Selected!')
+    while selection.upper() != 'X':
+        main_menu_choices[selection]()
+        show_menu(menu_items_main)
+        selection = menu_selection(menu_items_main)
 
 
 if __name__=="__main__":
