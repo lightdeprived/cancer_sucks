@@ -1,6 +1,5 @@
 import pandas as pd
 import mysql.connector as sql
-import xlsxwriter as xl
 import configparser
 
 config = configparser.ConfigParser()
@@ -44,7 +43,7 @@ event_data.to_excel(writer, 'CBC_History')
 
 writer.save()
 
-mtx_levels_sql  = """
+mtx_levels_sql = """
         select
         e.date_start as `HDMTX_Date`,
         -- e.time_start as `HDMTX_Time`,

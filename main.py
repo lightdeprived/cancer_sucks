@@ -26,8 +26,8 @@ def add_cbc_record():
     try:
 
         print("""You are here to add a CBC record!
-Please enter information below...
-        """)
+                 Please enter information below...
+              """)
 
         currdt = datetime.datetime.now()
 
@@ -196,10 +196,10 @@ def add_menu():
     menu_items_add['X'] = 'Return'
 
     add_menu_choices = {'1': add_cbc_record,
-               '2': add_medication_record,
-               '3': add_vitals_record,
-               '4': add_surgery_record,
-               'E': (lambda: print(error_text))}
+                        '2': add_medication_record,
+                        '3': add_vitals_record,
+                        '4': add_surgery_record,
+                        'E': (lambda: print(error_text))}
 
     show_menu(menu_items_add)
     selection = menu_selection(menu_items_add)
@@ -297,13 +297,13 @@ def plot_menu():
     menu_items_plot['X'] = "Return."
 
     plot_menu_choices = {'1': create_overview_plot,
-               '2': create_wbc_plot,
-               '3': create_anc_plot,
-               '4': create_gran_plot,
-               '5': create_hgb_plot,
-               '6': create_plt_plot,
-               '7': create_all_plot,
-               'E': (lambda: print(error_text))}
+                         '2': create_wbc_plot,
+                         '3': create_anc_plot,
+                         '4': create_gran_plot,
+                         '5': create_hgb_plot,
+                         '6': create_plt_plot,
+                         '7': create_all_plot,
+                         'E': (lambda: print(error_text))}
 
     show_menu(menu_items_plot)
     selection = menu_selection(menu_items_plot)
@@ -321,8 +321,8 @@ def main():
     menu_items_main['X'] = 'Exit.'
 
     main_menu_choices = {'1': add_menu,
-               '2': plot_menu,
-               'E': (lambda: print("Unknown Option Selected!"))}
+                         '2': plot_menu,
+                         'E': (lambda: print("Unknown Option Selected!"))}
 
     show_menu(menu_items_main)
     selection = menu_selection(menu_items_main)
@@ -333,5 +333,5 @@ def main():
         selection = menu_selection(menu_items_main)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
