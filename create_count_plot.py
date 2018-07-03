@@ -4,6 +4,7 @@ import matplotlib.patches as mpatches
 import pandas as pd
 import mysql.connector as sql
 import configparser
+import datetime
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -18,7 +19,8 @@ db_password = config['DEFAULT']['db_password']
 def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, display_baseline=False, outfile='chart',
                 outfile_type='png'):
 
-    db_connection = sql.connect(host=db_host, port=3306, database=db_name, user=db_user, password=db_password)
+    db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
+                                auth_plugin='mysql_native_password')
 
     xaxis_sql = """
     select
@@ -85,7 +87,7 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
     chemo_data = pd.read_sql(chemo_sql, con=db_connection)
     plot_config_data = pd.read_sql(plot_config_sql, con=db_connection)
     plot_config_data.set_index('name', inplace=True)
-    date_data = pd.read_sql(xaxis_sql, con=db_connection)
+    # date_data = pd.read_sql(xaxis_sql, con=db_connection)
     date_range_data = pd.read_sql(date_range_sql, con=db_connection)
 
     f = plt.figure(figsize=(16, 9))
@@ -104,9 +106,9 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
 
     # Limit the range of the plot to only where the data is.
     # Avoid unnecessary whitespace.
-    # plt.xlim(count_data['date_start'].values[0], count_data['date_start'].values[-1] + pd.DateOffset(days=1))
+    # plt.xlim(count_data[b'date_start'].values[0], count_data[b'date_start'].values[-1] + pd.DateOffset(days=1))
     # plt.xlim(date_data["min_date"].values[0], date_data["max_date"].values[0])
-    plt.xlim(date_range_data["event_date"].values[0], date_range_data["event_date"].values[-1] + pd.DateOffset(days=2))
+    plt.xlim(date_range_data[b"event_date"].values[0], date_range_data[b"event_date"].values[-1] + pd.DateOffset(days=2))
 
     # Make sure your axis ticks are large enough to be easily read.
     # You don't want your viewers squinting to read your plot.
@@ -130,41 +132,42 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
 
         # Plot data to true scale
         if not scale_data:
-            plt.plot(count_data['date_start'].values, count_data[column].values,
+            plt.plot(count_data[b'date_start'].values, count_data[column].values,
                      lw=2.5, color=plot_color)
             legend_handles.append(mpatches.Patch(color=plot_color,
                                                  label=plot_config_data.loc[column]['legend_name']))
         # Plot data to scale indicated in "Ranges" data with "Div By" column
         # This allows all data to be displayed on the same Y axis
         elif scale_data:
-            plt.plot(count_data['date_start'].values, (count_data[column].values / plot_config_data.loc[column]['div_by']),
+            plt.plot(count_data[b'date_start'].values,
+                     (count_data[column].values / plot_config_data.loc[column]['div_by']),
                      lw=2.5, color=plot_color)
-            legend_handles.append(mpatches.Patch(color=plot_color,
-                                                 label=plot_config_data.loc[column]['legend_name'] + ' X ' + str(plot_config_data.loc[column]['div_by'])))
+            legend_handles.append(mpatches.Patch(color=plot_color, label=plot_config_data.loc[column]['legend_name'] +
+                                                 ' X ' + str(plot_config_data.loc[column]['div_by'])))
 
         # Display normal range data (max / min) line
         if display_range:
             # Plot range lines not to scale
             if not scale_data:
-                plt.plot(date_range_data['event_date'].values, [plot_config_data.loc[column]['low']]
-                         * len(date_range_data['event_date'].values), "-",
+                plt.plot(date_range_data[b'event_date'].values, [plot_config_data.loc[column]['low']]
+                         * len(date_range_data[b'event_date'].values), "-",
                          lw=0.5, color="red", alpha=0.75)
 
                 # Plot min text. Need to convert last date value to datetime to add one day using DateOffset
                 # so text appears off right hand edge of graph.
-                plt.text(pd.to_datetime(date_range_data['event_date'].values[-1]) + pd.DateOffset(days=1),
+                plt.text(pd.to_datetime(date_range_data[b'event_date'].values[-1]) + pd.DateOffset(days=1),
                          plot_config_data.loc[column]['low'],
                          str(plot_config_data.loc[column]['low']),
                          fontsize=8, color='red', verticalalignment='center')
 
                 # Plot max line
-                plt.plot(date_range_data['event_date'].values, [plot_config_data.loc[column]['high']]
-                         * len(date_range_data['event_date'].values), "-",
+                plt.plot(date_range_data[b'event_date'].values, [plot_config_data.loc[column]['high']]
+                         * len(date_range_data[b'event_date'].values), "-",
                          lw=0.5, color="red", alpha=0.75)
 
                 # Plot max text. Need to convert last date value to datetime to add one day using
                 # DateOffset so text appears off right hand edge of graph.
-                plt.text(pd.to_datetime(date_range_data['event_date'].values[-1]) + pd.DateOffset(days=1),
+                plt.text(pd.to_datetime(date_range_data[b'event_date'].values[-1]) + pd.DateOffset(days=1),
                          plot_config_data.loc[column]['high'],
                          str(plot_config_data.loc[column]['high']),
                          fontsize=8, color='red', verticalalignment='center')
@@ -172,25 +175,25 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
             # Plot range lines to scale
             elif scale_data:
                 # Plot min line to scale
-                plt.plot(date_range_data['event_date'].values, [plot_config_data.loc[column]['low'] / plot_config_data.loc[column]['div_by']]
-                         * len(date_range_data['event_date'].values), "-",
+                plt.plot(date_range_data[b'event_date'].values, [plot_config_data.loc[column]['low'] / plot_config_data.loc[column]['div_by']]
+                         * len(date_range_data[b'event_date'].values), "-",
                          lw=0.5, color="red", alpha=0.75)
 
                 # Plot min text. Need to convert last date value to datetime to add one day using DateOffset
                 # so text appears off right hand edge of graph.
-                plt.text(pd.to_datetime(date_range_data['event_date'].values[-1]) + pd.DateOffset(days=1),
+                plt.text(pd.to_datetime(date_range_data[b'event_date'].values[-1]) + pd.DateOffset(days=1),
                          plot_config_data.loc[column]['low'] / plot_config_data.loc[column]['div_by'],
                          str(plot_config_data.loc[column]['low'] / plot_config_data.loc[column]['div_by']),
                          fontsize=8, color='red', verticalalignment='center')
 
                 # Plot max line to scale
-                plt.plot(date_range_data['event_date'].values, [plot_config_data.loc[column]['high'] / plot_config_data.loc[column]['div_by']]
-                         * len(date_range_data['event_date'].values), "-",
+                plt.plot(date_range_data[b'event_date'].values, [plot_config_data.loc[column]['high'] / plot_config_data.loc[column]['div_by']]
+                         * len(date_range_data[b'event_date'].values), "-",
                          lw=0.5, color="red", alpha=0.75)
 
                 # Plot max text. Need to convert last date value to datetime to add one day using
                 # DateOffset so text appears off right hand edge of graph.
-                plt.text(pd.to_datetime(date_range_data['event_date'].values[-1]) + pd.DateOffset(days=1),
+                plt.text(pd.to_datetime(date_range_data[b'event_date'].values[-1]) + pd.DateOffset(days=1),
                          plot_config_data.loc[column]['high'] / plot_config_data.loc[column]['div_by'],
                          str(plot_config_data.loc[column]['high'] / plot_config_data.loc[column]['div_by']),
                          fontsize=8, color='red', verticalalignment='center')
@@ -198,11 +201,11 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
         # Display first measurement of count as a "base line" measurement
         if display_baseline:
             if not scale_data:
-                plt.plot(date_range_data['event_date'].values, [count_data[column].values[0]] * len(date_range_data['event_date'].values),
+                plt.plot(date_range_data[b'event_date'].values, [count_data[column].values[0]] * len(date_range_data[b'event_date'].values),
                          "-", lw=0.5, color=plot_color, alpha=0.90)
             elif scale_data:
-                plt.plot(date_range_data['event_date'].values, [count_data[column].values[0] / plot_config_data.loc[column]['div_by']]
-                         * len(date_range_data['event_date'].values), "-", lw=0.5, color=plot_color, alpha=0.90)
+                plt.plot(date_range_data[b'event_date'].values, [count_data[column].values[0] / plot_config_data.loc[column]['div_by']]
+                         * len(date_range_data[b'event_date'].values), "-", lw=0.5, color=plot_color, alpha=0.90)
 
     ymin, ymax = plt.ylim()
 
@@ -214,7 +217,7 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
         r, g, b = bar_color
         bar_color = (r / 255., g / 255., b / 255.)
 
-        plt.bar(chemo_data['date_start'].values, (int(ymax) / len(meds)) * chemo_data[column], 0.75,
+        plt.bar(chemo_data[b'date_start'].values, (int(ymax) / len(meds)) * chemo_data[column], 0.75,
                 # color=tableau20[(rank + len(counts) * -1)],
                 color=bar_color,
                 align='center', alpha=0.75, bottom=(int(ymax) / len(meds)) * rank)
@@ -222,19 +225,19 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
         legend_handles.append(mpatches.Patch(color=bar_color, label=plot_config_data.loc[column]['legend_name'], alpha=0.75))
 
     # Place events
-    # circle1 = plt.Circle((chemo_data['date_start'][0],0), 2, color='red')
-    ax.plot([('2017-10-17')] * len(range(0,int(ymax))), range(0,int(ymax)), '-', color = 'red')
+    # circle1 = plt.Circle((chemo_data[b'date_start'][0],0), 2, color='red')
+    ax.plot([datetime.date(2017, 10, 17)] * len(range(0, int(ymax))), range(0,int(ymax)), '-', color = 'red')
     # ax.add_artist(circle1)
 
     # Place legend
     plt.legend(handles=legend_handles, bbox_to_anchor=(0, 1), loc=2)
 
-    # print(count_data['date_start'].values + count_data['date_end'].values)
+    # print(count_data[b'date_start'].values + count_data['date_end'].values)
 
     # Draw grid lines
     for y in ax.get_yticks():
         # need to revise this to use min start date and max end date
-        plt.plot(date_range_data['event_date'].values, [y] * len(date_range_data['event_date'].values), "--", lw=0.5,
+        plt.plot(date_range_data[b'event_date'].values, [y] * len(date_range_data[b'event_date'].values), "--", lw=0.5,
                  color="black", alpha=0.3)
 
     # plt.savefig(outfile, bbox_inches="tight")

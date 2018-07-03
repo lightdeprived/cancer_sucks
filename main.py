@@ -40,7 +40,8 @@ Please enter information below...
         anc = float(input('Enter AGC/ANC: ') or 0.00)
         comment = input('Enter comment: ') or 'N/A'
 
-        db_connection = sql.connect(host=db_host, database=db_name, user=db_user, password=db_password)
+        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
+                                    auth_plugin='mysql_native_password')
         cursor = db_connection.cursor()
 
         args = (9, 1, comment, cbc_date, cbc_date, cbc_time, cbc_time, wbc, hgb, plt, gran, anc, '')
@@ -59,7 +60,8 @@ Please enter information below...
 
 def add_medication_record():
     try:
-        db_connection = sql.connect(host=db_host, database=db_name, user=db_user, password=db_password)
+        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
+                                    auth_plugin='mysql_native_password')
         cursor = db_connection.cursor()
 
         currdt = datetime.datetime.now()
@@ -98,7 +100,8 @@ Please enter information below...
 
 def add_vitals_record():
     try:
-        db_connection = sql.connect(host=db_host, database=db_name, user=db_user, password=db_password)
+        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
+                                    auth_plugin='mysql_native_password')
         cursor = db_connection.cursor()
 
         currdt = datetime.datetime.now()
@@ -137,7 +140,8 @@ Please enter information below...
 
 def add_surgery_record():
     try:
-        db_connection = sql.connect(host=db_host, database=db_name, user=db_user, password=db_password)
+        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
+                                    auth_plugin='mysql_native_password')
         cursor = db_connection.cursor()
 
         currdt = datetime.datetime.now()
