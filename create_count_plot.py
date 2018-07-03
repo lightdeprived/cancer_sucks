@@ -139,7 +139,7 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
         # Plot data to scale indicated in "Ranges" data with "Div By" column
         # This allows all data to be displayed on the same Y axis
         elif scale_data:
-            plt.plot(count_data['date_start'].values,
+            plt.plot(count_data[b'date_start'].values,
                      (count_data[column].values / plot_config_data.loc[column]['div_by']),
                      lw=2.5,
                      color=plot_color)
@@ -151,8 +151,8 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
         if display_range:
             # Plot range lines not to scale
             if not scale_data:
-                plt.plot(date_range_data['event_date'].values, [plot_config_data.loc[column]['low']]
-                         * len(date_range_data['event_date'].values), "-",
+                plt.plot(date_range_data[b'event_date'].values, [plot_config_data.loc[column]['low']]
+                         * len(date_range_data[b'event_date'].values), "-",
                          lw=0.5,
                          color="red",
                          alpha=0.75)
@@ -167,8 +167,8 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
                          verticalalignment='center')
 
                 # Plot max line
-                plt.plot(date_range_data['event_date'].values, [plot_config_data.loc[column]['high']]
-                         * len(date_range_data['event_date'].values), "-",
+                plt.plot(date_range_data[b'event_date'].values, [plot_config_data.loc[column]['high']]
+                         * len(date_range_data[b'event_date'].values), "-",
                          lw=0.5,
                          color="red",
                          alpha=0.75)
@@ -185,9 +185,9 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
             # Plot range lines to scale
             elif scale_data:
                 # Plot min line to scale
-                plt.plot(date_range_data['event_date'].values,
+                plt.plot(date_range_data[b'event_date'].values,
                          [plot_config_data.loc[column]['low'] / plot_config_data.loc[column]['div_by']]
-                         * len(date_range_data['event_date'].values),
+                         * len(date_range_data[b'event_date'].values),
                          "-",
                          lw=0.5,
                          color="red",
@@ -203,9 +203,9 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
                          verticalalignment='center')
 
                 # Plot max line to scale
-                plt.plot(date_range_data['event_date'].values,
+                plt.plot(date_range_data[b'event_date'].values,
                          [plot_config_data.loc[column]['high'] / plot_config_data.loc[column]['div_by']]
-                         * len(date_range_data['event_date'].values), "-",
+                         * len(date_range_data[b'event_date'].values), "-",
                          lw=0.5,
                          color="red",
                          alpha=0.75)
@@ -222,16 +222,16 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
         # Display first measurement of count as a "base line" measurement
         if display_baseline:
             if not scale_data:
-                plt.plot(date_range_data['event_date'].values,
-                         [count_data[column].values[0]] * len(date_range_data['event_date'].values),
+                plt.plot(date_range_data[b'event_date'].values,
+                         [count_data[column].values[0]] * len(date_range_data[b'event_date'].values),
                          "-",
                          lw=0.5,
                          color=plot_color,
                          alpha=0.90)
             elif scale_data:
-                plt.plot(date_range_data['event_date'].values,
+                plt.plot(date_range_data[b'event_date'].values,
                          [count_data[column].values[0] / plot_config_data.loc[column]['div_by']]
-                         * len(date_range_data['event_date'].values),
+                         * len(date_range_data[b'event_date'].values),
                          "-",
                          lw=0.5,
                          color=plot_color,
@@ -247,7 +247,7 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
         r, g, b = bar_color
         bar_color = (r / 255., g / 255., b / 255.)
 
-        plt.bar(chemo_data['date_start'].values,
+        plt.bar(chemo_data[b'date_start'].values,
                 (int(ymax) / len(meds)) * chemo_data[column],
                 0.75,
                 color=bar_color,
@@ -259,8 +259,8 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
                                              alpha=0.75))
 
     # Place events
-    # circle1 = plt.Circle((chemo_data['date_start'][0],0), 2, color='red')
-    ax.plot(['2017-10-17'] * len(range(0, int(ymax))), range(0, int(ymax)),
+    # circle1 = plt.Circle((chemo_data[b'date_start'][0],0), 2, color='red')
+    ax.plot([datetime.date(2017, 10, 17)] * len(range(0, int(ymax))), range(0, int(ymax)),
             '-',
             color='red')
     # ax.add_artist(circle1)
@@ -273,7 +273,7 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
     # Draw grid lines
     for y in ax.get_yticks():
         # need to revise this to use min start date and max end date
-        plt.plot(date_range_data['event_date'].values, [y] * len(date_range_data['event_date'].values),
+        plt.plot(date_range_data[b'event_date'].values, [y] * len(date_range_data[b'event_date'].values),
                  "--",
                  lw=0.5,
                  color="black",

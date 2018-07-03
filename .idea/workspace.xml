@@ -2,33 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="628d78b9-3e89-4919-8365-cb18990cb782" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQL/counts and meds.sql" beforeDir="false" afterPath="$PROJECT_DIR$/SQL/counts and meds.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQL/db_create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/SQL/db_create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQL/sp_examples.sql" beforeDir="false" afterPath="$PROJECT_DIR$/SQL/sp_examples.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cbc_history.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/cbc_history.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/End_of_treatment/agc-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/End_of_treatment/agc-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/End_of_treatment/gran-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/End_of_treatment/gran-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/End_of_treatment/hgb-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/End_of_treatment/hgb-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/End_of_treatment/overview-plot.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/End_of_treatment/overview-plot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/End_of_treatment/plt-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/End_of_treatment/plt-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/End_of_treatment/wbc-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/End_of_treatment/wbc-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/agc-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/agc-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/gran-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/gran-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/hgb-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/hgb-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/overview-plot.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/overview-plot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/plt-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/plt-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/charts/wbc-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/charts/wbc-data.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/create_count_plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_count_plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/excel_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/excel_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hdmtx_level_history.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/hdmtx_level_history.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plots.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/plots.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/sql_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webagg_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/webagg_example.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webagg_plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/webagg_plot.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -45,8 +20,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3690">
-              <caret line="246" column="23" lean-forward="true" selection-start-line="246" selection-start-column="23" selection-end-line="246" selection-end-column="23" />
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
               <folding>
                 <element signature="e#18#42#0" expanded="true" />
               </folding>
@@ -57,8 +32,8 @@
       <file leaf-file-name="create_count_plot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/create_count_plot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
+            <state relative-caret-position="180">
+              <caret line="267" column="18" lean-forward="true" selection-start-line="267" selection-start-column="18" selection-end-line="267" selection-end-column="18" />
               <folding>
                 <element signature="e#18#49#0" expanded="true" />
               </folding>
@@ -88,7 +63,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="100" />
     <option name="y" value="56" />
     <option name="width" value="1400" />
@@ -99,7 +74,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -116,6 +90,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -174,18 +149,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="32" width="1602" height="869" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992928" visible="true" weight="0.150625" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32894737" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.327654" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32894737" />
       <window_info id="Structure" order="1" sideWeight="0.5007072" side_tool="true" weight="0.15091947" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32894737" />
       <window_info id="Favorites" order="2" sideWeight="0.5007072" side_tool="true" weight="0.15091947" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -230,6 +204,46 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3690">
+          <caret line="246" column="23" selection-start-line="246" selection-start-column="23" selection-end-line="246" selection-end-column="23" />
+          <folding>
+            <element signature="e#18#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_count_plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4290">
+          <caret line="286" selection-start-line="286" selection-end-line="286" />
+          <folding>
+            <element signature="e#18#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3690">
+          <caret line="246" column="23" lean-forward="true" selection-start-line="246" selection-start-column="23" selection-end-line="246" selection-end-column="23" />
+          <folding>
+            <element signature="e#18#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_count_plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3705">
+          <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
+          <folding>
+            <element signature="e#18#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3330">
@@ -472,23 +486,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv2/lib/python3.6/site-packages/matplotlib/dates.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="339" selection-start-line="339" selection-end-line="339" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3690">
-          <caret line="246" column="23" lean-forward="true" selection-start-line="246" selection-start-column="23" selection-end-line="246" selection-end-column="23" />
-          <folding>
-            <element signature="e#18#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/charts/agc-data.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -502,10 +499,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv2/lib/python3.6/site-packages/matplotlib/dates.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="339" selection-start-line="339" selection-end-line="339" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="1657" selection-start-line="1657" selection-end-line="1657" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="e#18#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/create_count_plot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="247" lean-forward="true" selection-start-line="247" selection-end-line="247" />
+        <state relative-caret-position="180">
+          <caret line="267" column="18" lean-forward="true" selection-start-line="267" selection-start-column="18" selection-end-line="267" selection-end-column="18" />
           <folding>
             <element signature="e#18#49#0" expanded="true" />
           </folding>
