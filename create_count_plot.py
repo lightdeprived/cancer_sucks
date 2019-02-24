@@ -2,7 +2,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import pandas as pd
-import mysql.connector as sql
+import psycopg2 as sql
+# from psycopg2 import Error
 import configparser
 import datetime
 
@@ -19,60 +20,59 @@ db_password = config['DEFAULT']['db_password']
 def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, display_baseline=False, outfile='chart',
                     outfile_type='png'):
 
-    db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
-                                auth_plugin='mysql_native_password')
+    db_connection = sql.connect("dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'")
 
     xaxis_sql = """
     select
-        min(date_start) `min_date`,
-        max(date_end) `max_date`
+        min(date_start) "min_date",
+        max(date_end) "max_date"
     from
-        `event`"""
+        cancer_sucks."event"""""
 
     date_range_sql = """
         select * from (
-            select date_start as `event_date` from `event`
+            select date_start as "event_date" from cancer_sucks."event"
             union
-            select date_end as `event_date` from `event`
+            select date_end as "event_date" from cancer_sucks."event"
         ) as event_dates
-        order by `event_date`;
+        order by "event_date";
     """
 
     event_sql = """
         select
             *
-        from `event` e
+        from cancer_sucks."event" e
         order by e.date_start;
     """
 
     count_sql = """
         select 
-            -- concat(p.person_last_name, ', ', p.person_first_name) `name`,
+            -- concat(p.person_last_name, ', ', p.person_first_name) "name",
             e.date_start,
             ec.wbc,
             ec.hgb,
             ec.plt,
             ec.gran_percent,
             ec.anc
-        from `event` e
-        inner join event_cbc ec on e.event_id = ec.event_id
+        from cancer_sucks."event" e
+        inner join cancer_sucks.event_cbc ec on e.event_id = ec.event_id
         -- inner join person p on e.person_id = p.person_id
         order by e.date_start;
     """
 
     chemo_sql = """
         select
-            concat(p.person_last_name, ', ', p.person_first_name) `name`,
+            concat(p.person_last_name, ', ', p.person_first_name) "name",
             e.date_start,
-            sum(m.name = 'Cisplatin') As `Cisplatin`,
-            sum(m.name = 'Doxorubicin') As `Doxorubicin`,
-            sum(m.name = 'Methotrexate') As `Methotrexate`,
-            sum(m.name = 'Neulasta') As `Neulasta`
-        from `event` e
-        inner join `event_medication` em on e.event_id = em.event_id
-        inner join `medication` m on em.medication_id = m.medication_id
-        inner join `medication_type` mt on m.medication_type_id = mt.medication_type_id
-        inner join `person` p on e.person_id = p.person_id
+            sum(CASE WHEN m.name = 'Cisplatin' THEN 1 ELSE 0 END) As "Cisplatin",
+            sum(CASE WHEN m.name = 'Doxorubicin' THEN 1 ELSE 0 END) As "Doxorubicin",
+            sum(CASE WHEN m.name = 'Methotrexate' THEN 1 ELSE 0 END) As "Methotrexate",
+            sum(CASE WHEN m.name = 'Neulasta' THEN 1 ELSE 0 END) As "Neulasta"
+        from cancer_sucks."event" e
+        inner join cancer_sucks."event_medication" em on e.event_id = em.event_id
+        inner join cancer_sucks."medication" m on em.medication_id = m.medication_id
+        inner join cancer_sucks."medication_type" mt on m.medication_type_id = mt.medication_type_id
+        inner join cancer_sucks."person" p on e.person_id = p.person_id
         where m.medication_type_id = 10 or m.name = 'Neulasta'
         group by concat(p.person_last_name, ', ', p.person_first_name),
             e.date_start
@@ -80,7 +80,7 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
     """
 
     plot_config_sql = """
-        select * from plot_config;
+        select * from cancer_sucks.plot_config;
     """
 
     count_data = pd.read_sql(count_sql, con=db_connection)
@@ -124,9 +124,9 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
 
         # Get color from "Ranges" data
         # Then convert to decimal as needed by pyplot
-        plot_color = (plot_config_data.loc[column]['R'],
-                      plot_config_data.loc[column]['G'],
-                      plot_config_data.loc[column]['B'])
+        plot_color = (plot_config_data.loc[column]['r'],
+                      plot_config_data.loc[column]['g'],
+                      plot_config_data.loc[column]['b'])
         r, g, b = plot_color
         plot_color = (r / 255., g / 255., b / 255.)
 
@@ -240,9 +240,9 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
     ymin, ymax = plt.ylim()
 
     for rank, column in enumerate(meds):
-        bar_color = (plot_config_data.loc[column]['R'],
-                     plot_config_data.loc[column]['G'],
-                     plot_config_data.loc[column]['B'])
+        bar_color = (plot_config_data.loc[column]['r'],
+                     plot_config_data.loc[column]['g'],
+                     plot_config_data.loc[column]['b'])
 
         r, g, b = bar_color
         bar_color = (r / 255., g / 255., b / 255.)
