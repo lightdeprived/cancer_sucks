@@ -40,12 +40,7 @@ def add_cbc_record():
         anc = float(input('Enter AGC/ANC: ') or 0.00)
         comment = input('Enter comment: ') or 'N/A'
 
-        #db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
-        #                            auth_plugin='mysql_native_password')
-        #cursor = db_connection.cursor()
-
         args = (9, 1, comment, cbc_date, cbc_date, cbc_time, cbc_time, wbc, hgb, plt, gran, anc)
-        #result = cursor.callproc('sp_add_event_cbc', args)
 
         with sql.connect("dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'") as conn:
             with conn.cursor() as curs:

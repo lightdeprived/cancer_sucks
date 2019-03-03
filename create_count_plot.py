@@ -22,61 +22,34 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
 
     db_connection = sql.connect("dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'")
 
-    xaxis_sql = """
-    select
-        min(date_start) "min_date",
-        max(date_end) "max_date"
-    from
-        cancer_sucks."event"""""
-
     date_range_sql = """
-        select * from (
-            select date_start as "event_date" from cancer_sucks."event"
-            union
-            select date_end as "event_date" from cancer_sucks."event"
-        ) as event_dates
-        order by "event_date";
-    """
-
-    event_sql = """
-        select
-            *
-        from cancer_sucks."event" e
-        order by e.date_start;
+        select 
+            * 
+        from v_event_date_range;
     """
 
     count_sql = """
-        select 
-            -- concat(p.person_last_name, ', ', p.person_first_name) "name",
-            e.date_start,
-            ec.wbc,
-            ec.hgb,
-            ec.plt,
-            ec.gran_percent,
-            ec.anc
-        from cancer_sucks."event" e
-        inner join cancer_sucks.event_cbc ec on e.event_id = ec.event_id
-        -- inner join person p on e.person_id = p.person_id
-        order by e.date_start;
+        select
+            date_start,
+            wbc,
+            hgb,
+            plt,
+            gran_percent,
+            anc
+        from cancer_sucks.v_event_cbc
+        order by date_start;
     """
 
     chemo_sql = """
         select
-            concat(p.person_last_name, ', ', p.person_first_name) "name",
-            e.date_start,
-            sum(CASE WHEN m.name = 'Cisplatin' THEN 1 ELSE 0 END) As "Cisplatin",
-            sum(CASE WHEN m.name = 'Doxorubicin' THEN 1 ELSE 0 END) As "Doxorubicin",
-            sum(CASE WHEN m.name = 'Methotrexate' THEN 1 ELSE 0 END) As "Methotrexate",
-            sum(CASE WHEN m.name = 'Neulasta' THEN 1 ELSE 0 END) As "Neulasta"
-        from cancer_sucks."event" e
-        inner join cancer_sucks."event_medication" em on e.event_id = em.event_id
-        inner join cancer_sucks."medication" m on em.medication_id = m.medication_id
-        inner join cancer_sucks."medication_type" mt on m.medication_type_id = mt.medication_type_id
-        inner join cancer_sucks."person" p on e.person_id = p.person_id
-        where m.medication_type_id = 10 or m.name = 'Neulasta'
-        group by concat(p.person_last_name, ', ', p.person_first_name),
-            e.date_start
-        order by e.date_start;
+            person_id,
+            date_start,
+            "Cisplatin",
+            "Doxorubicin",
+            "Methotrexate",
+            "Neulasta"
+        from cancer_sucks.v_event_medication_chemo
+        order by date_start;
     """
 
     plot_config_sql = """
