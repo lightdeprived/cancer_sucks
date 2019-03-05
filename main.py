@@ -1,8 +1,8 @@
 #!/usr/bin/python
 import create_count_plot
 import os
-import mysql.connector as sql
-from mysql.connector import Error
+import psycopg2 as sql
+from psycopg2 import Error
 import pandas as pd
 import datetime
 import configparser
@@ -40,30 +40,26 @@ def add_cbc_record():
         anc = float(input('Enter AGC/ANC: ') or 0.00)
         comment = input('Enter comment: ') or 'N/A'
 
-        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
-                                    auth_plugin='mysql_native_password')
-        cursor = db_connection.cursor()
+        args = (9, 1, comment, cbc_date, cbc_date, cbc_time, cbc_time, wbc, hgb, plt, gran, anc)
 
-        args = (9, 1, comment, cbc_date, cbc_date, cbc_time, cbc_time, wbc, hgb, plt, gran, anc, '')
-        result = cursor.callproc('sp_add_event_cbc', args)
+        with sql.connect("dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'") as conn:
+            with conn.cursor() as curs:
+                curs.callproc("sp_add_event_cbc", args)
+                result = curs.fetchone()[0]
+                conn.commit()
+                curs.close()
+
         print(result)
-
-        db_connection.commit()
 
     except Error as e:
         print(e)
 
     finally:
-        cursor.close()
-        db_connection.close()
+        conn.close()
 
 
 def add_medication_record():
     try:
-        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
-                                    auth_plugin='mysql_native_password')
-        cursor = db_connection.cursor()
-
         currdt = datetime.datetime.now()
 
         print("""You are here to add a medication record!
@@ -74,9 +70,11 @@ Please enter information below...
         med_end_date = input('Enter end date (yyyy-mm-dd) [today]: ') or currdt.strftime('%Y-%m-%d')
         med_end_time = input('Enter end time [now]: ') or currdt.strftime('%X')
 
-        df = pd.read_sql('SELECT medication_id, name_common, name FROM medication', db_connection)
-        df.set_index('medication_id', inplace=True)
-        print(df)
+        with sql.connect(
+                "dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'") as conn:
+            df = pd.read_sql_query('SELECT medication_id, name_common, name FROM cancer_sucks.medication', conn)
+            df.set_index('medication_id', inplace=True)
+            print(df)
 
         med_id = input('Enter medication ID: ') or None
         dose = input('Enter dose amount: ') or None
@@ -85,30 +83,30 @@ Please enter information below...
 
         args = (14, 1, comment, med_start_date, med_end_date, med_start_time, med_end_time, med_id,
                 dose, dose_um, '')
-        result = cursor.callproc('sp_add_event_medication', args)
-        print(result)
 
-        db_connection.commit()
+        with sql.connect("dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'") as conn:
+            with conn.cursor() as curs:
+                curs.callproc("sp_add_event_medication", args)
+                result = curs.fetchone()[0]
+                conn.commit()
+                curs.close()
+
+        print(result)
 
     except Error as e:
         print(e)
 
     finally:
-        cursor.close()
-        db_connection.close()
+        conn.close()
 
 
 def add_vitals_record():
     try:
-        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
-                                    auth_plugin='mysql_native_password')
-        cursor = db_connection.cursor()
-
-        currdt = datetime.datetime.now()
-
         print("""You are here to add a vitals record!
 Please enter information below...
         """)
+
+        currdt = datetime.datetime.now()
 
         vital_start_date = input('Enter start date (yyyy-mm-dd) [today]: ') or currdt.strftime('%Y-%m-%d')
         vital_start_time = input('Enter start time [now]: ') or currdt.strftime('%X')
@@ -125,25 +123,26 @@ Please enter information below...
         args = (16, 1, vital_comment, vital_start_date, vital_end_date, vital_start_time, vital_end_time,
                 vital_height, vital_weight, vital_bmi, vital_temp, vital_bp_s, vital_bp_d, '')
 
-        result = cursor.callproc('sp_add_event_vitals', args)
+        with sql.connect("dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'") as conn:
+            with conn.cursor() as curs:
+                curs.callproc("sp_add_event_vitals", args)
+                result = curs.fetchone()[0]
+                conn.commit()
+                curs.close()
+
         print(result)
 
-        db_connection.commit()
+        conn.commit()
 
     except Error as e:
         print(e)
 
     finally:
-        cursor.close()
-        db_connection.close()
+        conn.close()
 
 
 def add_surgery_record():
     try:
-        db_connection = sql.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_password,
-                                    auth_plugin='mysql_native_password')
-        cursor = db_connection.cursor()
-
         currdt = datetime.datetime.now()
 
         print("""You are here to add a surgery record!
@@ -160,17 +159,22 @@ Please enter information below...
         args = (17, 1, surgery_comment, surgery_start_date, surgery_end_date, surgery_start_time, surgery_end_time,
                 surgery_description, '')
 
-        result = cursor.callproc('sp_add_event_surgery', args)
+        with sql.connect("dbname='" + db_name + "' user='" + db_user + "' host='" + db_host + "' password='" + db_password + "'") as conn:
+            with conn.cursor() as curs:
+                curs.callproc("sp_add_event_surgery", args)
+                result = curs.fetchone()[0]
+                conn.commit()
+                curs.close()
+
         print(result)
 
-        db_connection.commit()
+        conn.commit()
 
     except Error as e:
         print(e)
 
     finally:
-        cursor.close()
-        db_connection.close()
+        conn.close()
 
 
 def show_menu(menu):
