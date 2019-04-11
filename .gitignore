@@ -1,0 +1,10 @@
+
+\.idea/
+
+venv2/lib/python3\.6/site-packages/pandas/tests/io/sas/data/\.DEMO_G\.xpt\.icloud
+
+venv2/lib/python3\.6/site-packages/pandas/tests/io/sas/data/\.DRXFCD_G\.xpt\.icloud
+
+venv2/lib/python3\.6/site-packages/pandas/tests/io/sas/data/DEMO_G\.xpt
+
+venv2/lib/python3\.6/site-packages/pandas/tests/io/sas/data/DRXFCD_G\.xpt

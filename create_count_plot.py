@@ -25,7 +25,7 @@ def create_plot_sql(counts=[], meds=[], display_range=False, scale_data=True, di
     date_range_sql = """
         select 
             * 
-        from v_event_date_range;
+        from cancer_sucks.v_event_date_range;
     """
 
     count_sql = """
